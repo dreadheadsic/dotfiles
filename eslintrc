@@ -1,0 +1,35 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 5,
+        "sourceType": "script"
+    },
+    "env": {
+        "browser": true,
+        "jquery": true
+    },
+    "extends": "airbnb-base/legacy",
+    "globals": {
+        "_": true,
+        "Backbone": true,
+        "P4TBackbone": true
+    },
+    "rules": {
+        "camelcase": [0, { "properties": "always" }],
+        // require function expressions to have a name
+        "func-names": 0,
+        // disallow use of undeclared variables unless mentioned in a /*global */ block
+        "no-undef": 0,
+        // disallows unary operators ++ and -- except in for loops
+        "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
+        "vars-on-top": ["warn"],
+        "max-len": ["error", 120, 2, {
+          "ignoreUrls": true,
+          "ignoreComments": false,
+          "ignoreRegExpLiterals": true,
+          "ignoreStrings": true,
+          "ignoreTemplateLiterals": true,
+        }],
+        "max-params": ["warn", { "max": 3 }],
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }],
+    }
+}

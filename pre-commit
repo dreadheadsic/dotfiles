@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+#!/bin/bash
+set -uo pipefail
+IFS=$'\n\t'
+
+#
+# Improvements from dahjelle/pre-commit.sh:
+# - does not lint deleted files,
+# - lints all staged files before exiting with an error code,
+# - handles spaces and other unusual chars in file names.
+#
+# Based also on @jancimajek's one liner in that Gist.
+#
+
+# ESLint staged changes only
+git diff --diff-filter=d --cached --name-only -z -- '*.js' '*.jsx' \
+  | xargs -0 -I % sh -c 'git show ":%" | eslint --stdin --stdin-filename "%";'
+eslint_exit=$?
+
+if [ ${eslint_exit} -eq 0 ]; then
+  echo "\033[32m ✓ \033[0m ESLint passed\n"
+else
+  echo "\033[31m ✘ \033[0m ESLint failed!\n" 1>&2
+  exit ${eslint_exit}
+fi
