@@ -34,12 +34,14 @@ Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
 Plugin 'pangloss/vim-javascript'
 Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
+" Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tyrannicaltoucan/vim-quantum'
 Plugin 'KeitaNakamura/neodark.vim'
+Plugin 'kaicataldo/material.vim'
+Plugin 'mhartington/oceanic-next'
 Plugin 'vim-scripts/upAndDown' " use Shift+up/down to move line
 Plugin 'airblade/vim-gitgutter'
 Plugin 'severin-lemaignan/vim-minimap'
@@ -51,6 +53,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'w0rp/ale'
 Plugin 'fleischie/vim-styled-components'
+Plugin 'kien/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -72,7 +75,7 @@ let g:airline#extensions#ale#enabled = 1           " ALE linter status for airli
 """""""""""
 " ALE async linter
 """""""""""
-let g:airline_section_error = '%{ALEGetStatusLine()}'  " show ALE status in Airline error section
+"let g:airline_section_error = '%{ALEGetStatusLine()}'  " show ALE status in Airline error section
 let g:ale_open_list = 1                                " show warnings/errors in loclist window
 " list of enabled linters
 let g:ale_linters = {
@@ -85,15 +88,19 @@ let g:ale_fixers.javascript = ['eslint']
 """""""""""
 " vim-devicons
 """""""""""
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ''  " the amount of space to use after the glyph character
+"let g:WebDevIconsNerdTreeAfterGlyphPadding = ''  " the amount of space to use after the glyph character
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1  " enable folder icons in NERDtree
 let g:DevIconsEnableFoldersOpenClose = 1         " enable open/closed folder icons in NERDTree
-let g:DevIconsDefaultFolderOpenSymbol = ' '     " symbol for open folders in NERDTree
-let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ' '
+"let g:DevIconsDefaultFolderOpenSymbol = ' '     " symbol for open folders in NERDTree
+"let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ' '
+
 "let g:webdevicons_enable_airline_tabline = 1
 "let g:webdevicons_conceal_nerdtree_brackets = 1
 
 "let NERDTreeShowHidden=1  " show hidden files in NERDtree
+
+"let NERDTreeDirArrowExpandable = ' '     " make arrows invisible
+"let NERDTreeDirArrowCollapsible = ' '    " make arrows invisible
 
 let g:jsx_ext_required = 0  " Allow JSX in normal JS files
 
