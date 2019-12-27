@@ -16,6 +16,11 @@ set shiftwidth=2       " number of spaces to use for autoindenting
 set smarttab           " insert tabs on the start of a line according to
                        "    shiftwidth, not tabstop
 set tabstop=2          " set tab to 2 spaces
+set mouse=a
+set ttymouse=xterm2
+
+set path=.,src,node_nodules
+set suffixesadd=.js,.jsx,.ts,.tsx
 
 if has("termguicolors")
     set termguicolors
@@ -26,38 +31,55 @@ colorscheme quantum
 filetype off  " required
 syntax enable " enable syntax higlighting
 
-set rtp+=~/.vim/bundle/Vundle.vim " set up vundle
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim " set up vundle
+" call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
+" Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
 
-Plugin 'pangloss/vim-javascript'
-Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'scrooloose/nerdtree'
+call plug#begin('~/.vim/plugged')
+
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'scrooloose/nerdtree'
 " Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tyrannicaltoucan/vim-quantum'
-Plugin 'KeitaNakamura/neodark.vim'
-Plugin 'kaicataldo/material.vim'
-Plugin 'mhartington/oceanic-next'
-Plugin 'vim-scripts/upAndDown' " use Shift+up/down to move line
-Plugin 'airblade/vim-gitgutter'
-Plugin 'severin-lemaignan/vim-minimap'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'bronson/vim-trailing-whitespace' " paint trailing whitespace red, fix it with FixWhitespace
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'qpkorr/vim-bufkill' " use :BD to close buffer without closing the window
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'w0rp/ale'
-Plugin 'fleischie/vim-styled-components'
-Plugin 'kien/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'kaicataldo/material.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'rakr/vim-one'
+Plug 'vim-scripts/upAndDown' " use Shift+up/down to move line
+Plug 'airblade/vim-gitgutter'
+Plug 'severin-lemaignan/vim-minimap'
+Plug 'ryanoasis/vim-devicons'
+Plug 'bronson/vim-trailing-whitespace' " paint trailing whitespace red, fix it with FixWhitespace
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'qpkorr/vim-bufkill' " use :BD to close buffer without closing the window
+" Plug 'Valloric/YouCompleteMe'
+" Plugin 'ternjs/tern_for_vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'w0rp/ale'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main'  }
+Plug 'kien/ctrlp.vim'
+Plug 'zivyangll/git-blame.vim'
+" Plugin 'sheerun/vim-polyglot'
+Plug 'trevordmiller/nova-vim'
+Plug 'hzchirs/vim-material'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'tpope/vim-commentary'
+
+call plug#end()
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" call vundle#end()            " required
+" filetype plugin indent on    " required
 
 """""""""""
 " Airline
@@ -75,15 +97,15 @@ let g:airline#extensions#ale#enabled = 1           " ALE linter status for airli
 """""""""""
 " ALE async linter
 """""""""""
-"let g:airline_section_error = '%{ALEGetStatusLine()}'  " show ALE status in Airline error section
+" let g:airline_section_error = '%{ale#statusline#Status()}'  " show ALE status in Airline error section
 let g:ale_open_list = 1                                " show warnings/errors in loclist window
 " list of enabled linters
 let g:ale_linters = {
   \ 'javascript': ['eslint', 'jscs']
   \ }
 " Fix JavaScript code with ESlint
-let g:ale_fixers = {}
-let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers = ['eslint']
+" let g:ale_fixers.javascript = ['eslint']
 
 """""""""""
 " vim-devicons
@@ -104,7 +126,38 @@ let g:DevIconsEnableFoldersOpenClose = 1         " enable open/closed folder ico
 
 let g:jsx_ext_required = 0  " Allow JSX in normal JS files
 
-" after a re-source, fix syntax matching issues (concealing brackets):
+"""""""""""
+" coc.nvim
+"""""""""""
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" `gf` opens file under cursor in a new vertical split
+nnoremap gf :vertical wincmd f<CR>
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif

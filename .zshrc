@@ -39,11 +39,22 @@ antigen bundle node
 antigen bundle npm
 antigen bundle tmux
 antigen bundle supercrabtree/k
+antigen bundle git
 
-antigen theme bhilburn/powerlevel9k powerlevel9k
+#antigen theme bhilburn/powerlevel9k powerlevel9k
+antigen theme romkatv/powerlevel10k powerlevel10k
+
 antigen apply
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 # if [ -z $TMUX ]; then; tmux; fi
 export TERM="xterm-color"
 
+# required for signing commits
+export GPG_TTY=$(tty)
+
+export EDITOR=vim
+
+export FZF_DEFAULT_COMMAND='ag --ignore node_modules -g ""'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

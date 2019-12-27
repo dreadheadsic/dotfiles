@@ -54,7 +54,7 @@ tmux_conf_theme_24b_colour=true
 
 # window style
 tmux_conf_theme_window_fg='default'
-tmux_conf_theme_window_bg='#263238' #'default'
+tmux_conf_theme_window_bg='default'  #'#263137' #'default'
 
 # highlight focused pane (tmux >= 2.1), possible values are:
 #   - true
@@ -63,7 +63,7 @@ tmux_conf_theme_highlight_focused_pane=false
 
 # focused pane colours:
 tmux_conf_theme_focused_pane_fg='default'
-tmux_conf_theme_focused_pane_bg='#0087d7'               # light blue
+tmux_conf_theme_focused_pane_bg='blue'               # light blue
 
 # pane border style, possible values are:
 #   - thin (default)
@@ -71,8 +71,8 @@ tmux_conf_theme_focused_pane_bg='#0087d7'               # light blue
 tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
-tmux_conf_theme_pane_border='#444444'                   # gray
-tmux_conf_theme_pane_active_border='#00afff'            # light blue
+tmux_conf_theme_pane_border='black'                   # gray
+tmux_conf_theme_pane_active_border='blue'            # light blue
 
 # pane indicator colours
 tmux_conf_theme_pane_indicator='#00afff'                # light blue
@@ -149,7 +149,7 @@ tmux_conf_theme_window_status_bell_bg='default'
 tmux_conf_theme_window_status_bell_attr='blink,bold'
 
 # window last status style
-tmux_conf_theme_window_status_last_fg='#00afff'         # light blue
+tmux_conf_theme_window_status_last_fg='default'         # light blue
 tmux_conf_theme_window_status_last_bg='default'
 tmux_conf_theme_window_status_last_attr='none'
 
@@ -187,16 +187,16 @@ tmux_conf_theme_right_separator_sub=''  #   PowerlineSymbols.otf font
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_vbar, #{battery_vbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_vbar, #{battery_vbar},}#{?battery_percentage, #{battery_percentage},} | %R , %d %b | #{username}#{root} | #{hostname} '
 
 # status left style
-tmux_conf_theme_status_left_fg='#000000,#B0BEC5,#e4e4e4'  # black, white , white
-tmux_conf_theme_status_left_bg='#e4e4e4,#455a64,#00afff'  # yellow, pink, white blue
+tmux_conf_theme_status_left_fg='default,#B0BEC5,#e4e4e4'  # black, white , white
+tmux_conf_theme_status_left_bg='white,black,#00afff'  # yellow, pink, white blue
 tmux_conf_theme_status_left_attr='bold,bold,none'
 
 # status right style
-tmux_conf_theme_status_right_fg='#8a8a8a,#B0BEC5,#000000' # light gray, white, black
-tmux_conf_theme_status_right_bg='#080808,#455A64,#e4e4e4' # dark gray, pink-#ff00af,, white
+tmux_conf_theme_status_right_fg='#8a8a8a,#B0BEC5,default' # light gray, white, black
+tmux_conf_theme_status_right_bg='#080808,#455A64,white' # dark gray, pink-#ff00af,, white
 tmux_conf_theme_status_right_attr='none,none,bold'
 
 # pairing indicator
@@ -274,7 +274,7 @@ tmux_conf_theme_clock_style='24'
 #   - false (default)
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
-tmux_conf_copy_to_os_clipboard=false
+tmux_conf_copy_to_os_clipboard=true
 
 
 # -- user customizations -------------------------------------------------------
