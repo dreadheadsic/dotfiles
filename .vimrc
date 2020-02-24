@@ -18,23 +18,17 @@ set smarttab           " insert tabs on the start of a line according to
 set tabstop=2          " set tab to 2 spaces
 set mouse=a
 set ttymouse=xterm2
+set clipboard=unnamedplus " use system clipboard
 
-set path=.,src,node_nodules
+set path=.,src,node_modules
 set suffixesadd=.js,.jsx,.ts,.tsx
 
 if has("termguicolors")
     set termguicolors
 endif
 
-colorscheme quantum
-
 filetype off  " required
 syntax enable " enable syntax higlighting
-
-" set rtp+=~/.vim/bundle/Vundle.vim " set up vundle
-" call vundle#begin()
-
-" Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
 
 call plug#begin('~/.vim/plugged')
 
@@ -63,7 +57,7 @@ Plug 'qpkorr/vim-bufkill' " use :BD to close buffer without closing the window
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'w0rp/ale'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main'  }
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 Plug 'zivyangll/git-blame.vim'
 " Plugin 'sheerun/vim-polyglot'
 Plug 'trevordmiller/nova-vim'
@@ -74,18 +68,17 @@ Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-commentary'
+Plug 'Yggdroot/LeaderF'
 
 call plug#end()
 
-" All of your Plugins must be added before the following line
-" call vundle#end()            " required
-" filetype plugin indent on    " required
+colorscheme onedark
 
 """""""""""
 " Airline
 """""""""""
 let g:airline_powerline_fonts = 1                  " use powerline fonts
-let g:airline_theme='quantum'                      " set quantum theme
+let g:airline_theme='onedark'                      " set quantum theme
 let g:airline_skip_empty_sections = 1              " hide empty sections (err,warning)
 let g:airline#extensions#tabline#enabled = 1       " enable advanced tabline
 let g:airline#extensions#tabline#show_buffers = 1  " show all buffers when there's only one tab
@@ -101,7 +94,7 @@ let g:airline#extensions#ale#enabled = 1           " ALE linter status for airli
 let g:ale_open_list = 1                                " show warnings/errors in loclist window
 " list of enabled linters
 let g:ale_linters = {
-  \ 'javascript': ['eslint', 'jscs']
+  \ 'javascript': ['eslint']
   \ }
 " Fix JavaScript code with ESlint
 let g:ale_fixers = ['eslint']
@@ -152,6 +145,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<CR>
+" ctrl-p opens fzf
+nnoremap <silent> <C-p> :FZF<CR>
 
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
@@ -161,3 +156,19 @@ autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif
+
+" LeaderF settings
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 1
+let g:Lf_IgnoreCurrentBufferName = 1
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+autocmd BufEnter *.{js,ts,jsx,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,ts,jsx,tsx} :syntax sync clear
