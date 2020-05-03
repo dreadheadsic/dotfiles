@@ -19,6 +19,7 @@ set tabstop=2          " set tab to 2 spaces
 set mouse=a
 set ttymouse=xterm2
 set clipboard=unnamedplus " use system clipboard
+set colorcolumn=100
 
 set path=.,src,node_modules
 set suffixesadd=.js,.jsx,.ts,.tsx
@@ -47,7 +48,7 @@ Plug 'mhartington/oceanic-next'
 Plug 'rakr/vim-one'
 Plug 'vim-scripts/upAndDown' " use Shift+up/down to move line
 Plug 'airblade/vim-gitgutter'
-Plug 'severin-lemaignan/vim-minimap'
+" Plug 'severin-lemaignan/vim-minimap'
 Plug 'ryanoasis/vim-devicons'
 Plug 'bronson/vim-trailing-whitespace' " paint trailing whitespace red, fix it with FixWhitespace
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -68,11 +69,13 @@ Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-commentary'
-Plug 'Yggdroot/LeaderF'
+" Plug 'Yggdroot/LeaderF'
 
 call plug#end()
 
 colorscheme onedark
+" transparent background
+hi Normal guibg=NONE ctermbg=NONE
 
 """""""""""
 " Airline
@@ -84,7 +87,7 @@ let g:airline#extensions#tabline#enabled = 1       " enable advanced tabline
 let g:airline#extensions#tabline#show_buffers = 1  " show all buffers when there's only one tab
 let g:airline#extensions#tabline#show_splits = 0   " don't display open splits per tab
 let g:airline#extensions#tabline#show_tabs = 1     " display tabs
-let g:airline#extensions#ycm#enabled = 1           " YouCompleteMe status for airline
+" let g:airline#extensions#ycm#enabled = 1           " YouCompleteMe status for airline
 let g:airline#extensions#ale#enabled = 1           " ALE linter status for airline
 
 """""""""""
@@ -143,10 +146,50 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<CR>
 " ctrl-p opens fzf
 nnoremap <silent> <C-p> :FZF<CR>
+let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6 } }
 
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
@@ -172,3 +215,5 @@ noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 
 autocmd BufEnter *.{js,ts,jsx,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,ts,jsx,tsx} :syntax sync clear
+
+command JsonFormat %!jq '.' " formats json in current buffer
