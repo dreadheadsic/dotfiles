@@ -31,8 +31,14 @@ endif
 filetype off  " required
 syntax enable " enable syntax higlighting
 
+set updatetime=300
+
+" let g:ale_completion_enabled = 1
+" set omnifunc=ale#completion#OmniFunc
+
 call plug#begin('~/.vim/plugged')
 
+" Plug 'vim-syntastic/syntastic'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'scrooloose/nerdtree'
@@ -56,7 +62,7 @@ Plug 'qpkorr/vim-bufkill' " use :BD to close buffer without closing the window
 " Plug 'Valloric/YouCompleteMe'
 " Plugin 'ternjs/tern_for_vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main'  }
 " Plug 'kien/ctrlp.vim'
 Plug 'zivyangll/git-blame.vim'
@@ -69,6 +75,7 @@ Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-commentary'
+Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'Yggdroot/LeaderF'
 
 call plug#end()
@@ -88,21 +95,22 @@ let g:airline#extensions#tabline#show_buffers = 1  " show all buffers when there
 let g:airline#extensions#tabline#show_splits = 0   " don't display open splits per tab
 let g:airline#extensions#tabline#show_tabs = 1     " display tabs
 " let g:airline#extensions#ycm#enabled = 1           " YouCompleteMe status for airline
-let g:airline#extensions#ale#enabled = 1           " ALE linter status for airline
+" let g:airline#extensions#ale#enabled = 1           " ALE linter status for airline
 
 """""""""""
 " ALE async linter
 """""""""""
 " let g:airline_section_error = '%{ale#statusline#Status()}'  " show ALE status in Airline error section
-let g:ale_open_list = 1                                " show warnings/errors in loclist window
+" let g:ale_open_list = 1                                " show warnings/errors in loclist window
 " list of enabled linters
-let g:ale_linters = {
-  \ 'javascript': ['eslint']
-  \ }
+" let g:ale_linters = {
+"   \ 'javascript': ['eslint']
+"   \ }
 " Fix JavaScript code with ESlint
-let g:ale_fixers = ['eslint']
+" let g:ale_fixers = ['eslint']
 " let g:ale_fixers.javascript = ['eslint']
-
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
 """""""""""
 " vim-devicons
 """""""""""
@@ -122,9 +130,9 @@ let g:DevIconsEnableFoldersOpenClose = 1         " enable open/closed folder ico
 
 let g:jsx_ext_required = 0  " Allow JSX in normal JS files
 
-"""""""""""
-" coc.nvim
-"""""""""""
+""""""""""""
+"" coc.nvim
+""""""""""""
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
@@ -192,7 +200,7 @@ nnoremap <silent> <C-p> :FZF<CR>
 let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6 } }
 
 let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
+" let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
@@ -200,15 +208,21 @@ if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif
 
-" LeaderF settings
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 0
-let g:Lf_UseVersionControlTool = 1
-let g:Lf_IgnoreCurrentBufferName = 1
-let g:Lf_ShortcutF = "<leader>ff"
-noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+" " LeaderF settings
+" let g:Lf_WindowPosition = 'popup'
+" let g:Lf_PreviewInPopup = 1
+" let g:Lf_HideHelp = 1
+" let g:Lf_UseCache = 0
+" let g:Lf_UseVersionControlTool = 1
+" let g:Lf_IgnoreCurrentBufferName = 1
+" let g:Lf_ShortcutF = "<leader>ff"
+
+let mapleader=","
+
+noremap <leader>lo :lopen<CR>
+noremap <leader>lc :lopen<CR>
+
+noremap <leader>fb :Buffers<CR>
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
@@ -217,3 +231,11 @@ autocmd BufEnter *.{js,ts,jsx,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,ts,jsx,tsx} :syntax sync clear
 
 command JsonFormat %!jq '.' " formats json in current buffer
+
+
+let g:markdown_fenced_languages = ['js=javascript']
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
