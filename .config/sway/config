@@ -1,0 +1,295 @@
+# start notifications daemon
+exec_always mako --default-timeout 3000 --background-color '#4d435290' --border-color '#9858c6'
+
+font pango:FuraMono Nerd Font Medium 9
+
+### Variables
+#
+# Logo key.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# default terminal
+set $term kitty
+
+# launcher(s)
+set $menu wofi --dmenu --show drun --allow-images | xargs swaymsg exec --
+set $rofiMenu rofi -show drun window ssh -sidebar-mode true | xargs swaymsg exec --
+
+# screen lock command
+set $swaylock swaylock -f \
+  --screenshots \
+  --clock \
+  --indicator \
+  --indicator-radius 100 \
+  --indicator-thickness 7 \
+  --effect-blur 7x5 \
+  --effect-vignette 0.5:0.5 \
+  --ring-color bb00cc \
+  --key-hl-color 880033 \
+  --line-color 00000000 \
+  --inside-color 00000088 \
+  --separator-color 00000000 \
+  --grace 2 \
+  --fade-in 0.2
+
+### Output configuration
+#
+# wallpaper(s)
+#
+output * bg ~/Pictures/388264.jpg fill
+output DP-3 bg ~/Pictures/1682057.jpg fill
+output DP-5 bg ~/Pictures/1682057.jpg fill
+
+### Idle configuration
+#
+# Example configuration:
+#
+exec swayidle -w timeout 300 '$swaylock' \
+    timeout 1200 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep '$swaylock'
+
+### Inputs
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+    input * {
+      tap enabled
+      dwt disabled
+    }
+
+    input type:keyboard {
+      xkb_layout us,rs(latin)
+      xkb_options grp:shifts_toggle,caps:ctrl_modifier
+    }
+
+### Key bindings
+#
+# Basics:
+#
+
+    bindsym XF86MonBrightnessDown exec lightctl lower
+    bindsym XF86MonBrightnessUp exec lightctl raise
+
+    bindsym XF86AudioLowerVolume exec volumectl lower
+    bindsym XF86AudioRaiseVolume exec volumectl raise
+    bindsym XF86AudioMute exec volumectl mute
+
+    bindsym $mod+End exec $swaylock
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+    bindsym $mod+shift+d exec $rofiMenu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit?' -b 'Yes, exit!' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    output DP-3 pos 0 0 transform 270
+    output DP-5 pos 0 0 transform 270
+    output DP-4 pos 1200 0
+    output DP-6 pos 1200 0
+    output eDP-1 pos 1200 1080
+
+    # Switch to workspace
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+0 move container to workspace 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+
+    workspace 1 output DP-3
+    workspace 1 output DP-5
+    workspace 2 output DP-4
+    workspace 2 output DP-6
+    workspace 3 output eDP-1
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+c splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+}
+
+
+# Colors {{{1
+    set $foc_bord #000000
+    set $foc_bg   #9858c6
+    set $foc_text #ffffff
+    set $foc_ind  #9858c6
+    set $foc_cb   #9858c6
+
+    set $fIn_bg   #5f676a
+    set $fIn_ind  #484e50
+    set $fIn_cb   #5f676a
+
+    set $ina_bord #0C0C14
+    set $ina_bg   #0C0C14
+    set $ina_text #899299
+    set $ina_ind  #899299
+    set $ina_cb   #0D0D16
+
+    set $urg_bord #E5AC39
+    set $urg_bg   #E55C50
+    set $urg_ind  #E55C50
+
+    set $dark_ph  #0C0C14
+
+    # client.focused
+    #     A client which currently has the focus.
+    # client.focused_inactive
+    #     A client which is the focused one of its container,
+    #     but it does not have the focus at the moment.
+    # client.unfocused
+    #     A client which is not the focused one of its container.
+    # client.urgent
+    #     A client which has its urgency hint activated.
+
+    # class                 border    backgr.  text      indicator  child_border
+    client.focused          $foc_bord $foc_bg  $foc_text $foc_ind   $foc_cb
+    client.focused_inactive $ina_bord $fIn_bg  $foc_text $fIn_ind   $fIn_cb
+    client.unfocused        $ina_bord $ina_bg  $ina_text $ina_ind   $ina_cb
+    client.urgent           $urg_bord $urg_bg  $foc_text $urg_ind   $urg_bg
+
+# exec_always ~/.config/waybar/waybar.sh
+
+default_border none
+default_floating_border pixel 1
+titlebar_border_thickness 2
+titlebar_padding 15 4
+gaps inner 5
+gaps outer 0
+smart_gaps on
+
+for_window [app_id="avizo-service"] border pixel 0
+for_window [app_id="avizo-service"] sticky toggle
+no_focus [app_id="avizo-service"]
+
+exec avizo-service
+
+include /etc/sway/config.d/*
