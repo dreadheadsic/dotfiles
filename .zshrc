@@ -1,7 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 # export ZSH=/Users/krunic/.oh-my-zsh
 
-ZSH_TMUX_AUTOSTART="true"
+ZSH_TMUX_AUTOSTART="false"
 
 DEFAULT_USER="$USER"
 
@@ -12,6 +19,8 @@ COMPLETION_WAITING_DOTS="true"
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+ZSH_THEME="random"
 
 # User configuration
 
@@ -25,7 +34,7 @@ bashcompinit -i
 source $HOME/antigen.zsh
 
 # load Powerlevel9k custom settings
-source $HOME/pl9k.zsh
+# source $HOME/pl9k.zsh
 
 
 # Load the oh-my-zsh's library.
@@ -58,3 +67,9 @@ export EDITOR=vim
 export FZF_DEFAULT_COMMAND='ag --ignore node_modules -g ""'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
+

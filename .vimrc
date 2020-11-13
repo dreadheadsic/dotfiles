@@ -17,9 +17,9 @@ set smarttab           " insert tabs on the start of a line according to
                        "    shiftwidth, not tabstop
 set tabstop=2          " set tab to 2 spaces
 set mouse=a
-set ttymouse=xterm2
+" set ttymouse=xterm2
 set clipboard=unnamedplus " use system clipboard
-set colorcolumn=100
+set colorcolumn=120
 
 set path=.,src,node_modules
 set suffixesadd=.js,.jsx,.ts,.tsx
@@ -76,11 +76,13 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'tpope/vim-commentary'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'wakatime/vim-wakatime'
+Plug 'chrisbra/Colorizer'
 " Plug 'Yggdroot/LeaderF'
 
 call plug#end()
 
-colorscheme onedark
+colorscheme one
 " transparent background
 hi Normal guibg=NONE ctermbg=NONE
 
@@ -88,7 +90,7 @@ hi Normal guibg=NONE ctermbg=NONE
 " Airline
 """""""""""
 let g:airline_powerline_fonts = 1                  " use powerline fonts
-let g:airline_theme='onedark'                      " set quantum theme
+let g:airline_theme='one'                      " set quantum theme
 let g:airline_skip_empty_sections = 1              " hide empty sections (err,warning)
 let g:airline#extensions#tabline#enabled = 1       " enable advanced tabline
 let g:airline#extensions#tabline#show_buffers = 1  " show all buffers when there's only one tab
@@ -225,7 +227,7 @@ noremap <leader>lc :lopen<CR>
 noremap <leader>fb :Buffers<CR>
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>fl :Lines<CR>
 
 autocmd BufEnter *.{js,ts,jsx,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,ts,jsx,tsx} :syntax sync clear
