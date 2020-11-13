@@ -1,0 +1,46 @@
+window {
+margin: 5px;
+/* border: 2px solid #9858c6; */
+background-color: rgba(0, 0, 0, 0.6);
+/* opacity: 0.8; */
+}
+
+#input {
+margin: 5px;
+border: 2px solid transparent;
+background-color: rgba(0, 0, 0, 0.6);
+}
+
+#input input {
+  background-color: green;
+}
+
+#inner-box {
+  /* opacity: 0.9; */
+margin: 5px;
+/* border: 2px solid #9858c6; */
+/* background-color: #9858c6; */
+}
+
+#outer-box {
+  /* margin: 5px; */
+  /* border: 2px solid green; */
+  /* background-color: green; */
+}
+
+#scroll {
+  /* margin: 5px; */
+  /* border: 2px solid orange; */
+  /* background-color: orange; */
+}
+
+#text {
+  /* margin: 5px; */
+  /* border: 2px solid cyan; */
+  /* background-color: cyan; */
+}
+
+#entry:selected {
+  background-color: #9858c6;
+  opacity: 0.8;
+}
